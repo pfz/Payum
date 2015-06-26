@@ -218,6 +218,7 @@ class Api
             'DESCRIPTION' => null,
             'ORDERID' => null,
             'AMOUNT' => null,
+            'AMOUNTS' => null,
             'CARDTYPE' => null,
             'CLIENTEMAIL' => null,
             'CARDFULLNAME' => null,
@@ -238,6 +239,13 @@ class Api
             array_intersect_key($params, $supportedParams)
         ));
 
+        if (isset($params["AMOUNTS"])) {
+            foreach($params["AMOUNTS"] as $key => $value) {
+                $params["AMOUNTS[" . $key ."]"] = $value;
+            }
+            unset($params["AMOUNTS"]);
+        }
+        
         $params['OPERATIONTYPE'] = static::OPERATION_PAYMENT;
         $params = $this->appendGlobalParams($params);
 
